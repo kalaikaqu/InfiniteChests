@@ -32,8 +32,9 @@ namespace InfiniteChests
         {
             get { return "InfiniteChests"; }
         }
-        public static Dictionary<Point, int> Timer = new Dictionary<Point, int>();
+        public static List<Point> Points = new List<Point>();
         public static System.Timers.Timer TimerDec = new System.Timers.Timer(1000);
+        public static List<int> Timers = new List<int>();
         public override Version Version
         {
             get { return Assembly.GetExecutingAssembly().GetName().Version; }
@@ -140,20 +141,15 @@ namespace InfiniteChests
         }
         void OnElapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            List<Point> dec = new List<Point>();
-            foreach (Point p in Timer.Keys)
+            for (int i = Timers.Count - 1; i >= 0; i--)
             {
-                dec.Add(p);
-            }
-            foreach (Point p in dec)
-            {
-                if (Timer[p] == 0)
+                if (Timers[i] == 0)
                 {
-                    Timer.Remove(p);
+                    Timers.RemoveAt(i);
                 }
                 else
                 {
-                    Timer[p]--;
+                    Timers[i]--;
                 }
             }
         }
@@ -336,8 +332,16 @@ namespace InfiniteChests
                                 c.plr.SendMessage("This chest is protected.", Color.Red);
                                 break;
                             }
-                            int timeLeft;
-                            if (Timer.TryGetValue(new Point(c.loc.X, c.loc.Y), out timeLeft))
+                            int timeLeft = -1;
+                            for (int i = 0; i < Points.Count; i++)
+                            {
+                                if (Points[i].X == c.loc.X && Points[i].Y == c.loc.Y)
+                                {
+                                    timeLeft = Timers[i];
+                                    break;
+                                }
+                            }
+                            if (timeLeft > 0)
                             {
                                 c.plr.SendMessage(string.Format("This chest will refill in {0} second(s).", (int)timeLeft), Color.Red);
                                 break;
@@ -417,7 +421,8 @@ namespace InfiniteChests
                     };
                     if ((chest.flags & ChestFlags.REFILL) != 0)
                     {
-                        Timer.Add(new Point(infos[ci.plr.Index].loc.X, infos[ci.plr.Index].loc.Y), (int)chest.flags >> 3);
+                        Points.Add(new Point(infos[ci.plr.Index].loc.X, infos[ci.plr.Index].loc.Y));
+                        Timers.Add((int)chest.flags >> 3);
                         return;
                     }
                     int[] itemArgs = new int[60];
