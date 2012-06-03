@@ -63,6 +63,7 @@ namespace InfiniteChests
             ServerHooks.Leave += OnLeave;
 
             TimerDec.Elapsed += OnElapsed;
+            TimerDec.Start();
         }
 
         void OnGetData(GetDataEventArgs e)
