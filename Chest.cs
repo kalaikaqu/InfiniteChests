@@ -13,6 +13,7 @@ namespace InfiniteChests
         public Vector2 loc;
     }
 
+    [Flags]
     public enum ChestFlags : byte
     {
         PUBLIC = 1,

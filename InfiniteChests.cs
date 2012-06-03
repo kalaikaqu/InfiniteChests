@@ -283,7 +283,7 @@ namespace InfiniteChests
                             else
                             {
                                 Database.Query("UPDATE Chests SET Flags = @0 WHERE X = @1 AND Y = @2 AND WorldID = @3",
-                                    (int)(chest.flags ^ ChestFlags.REFILL) & 3, c.loc.X, c.loc.Y, Main.worldID);
+                                    (int)(chest.flags ^ ChestFlags.REFILL), c.loc.X, c.loc.Y, Main.worldID);
                                 if ((chest.flags & ChestFlags.REFILL) == 0)
                                 {
                                     c.plr.SendMessage("This chest will now refill.");
