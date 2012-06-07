@@ -329,7 +329,7 @@ namespace InfiniteChests
                             c.plr.SendMessage("This chest is no longer protected.");
                             break;
                         default:
-                            if ((chest.flags & ChestFlags.PUBLIC) != 0 && ((chest.account != c.plr.UserAccountName &&
+                            if ((chest.flags & ChestFlags.PUBLIC) == 0 && ((chest.account != c.plr.UserAccountName &&
                                 chest.account != "" && !c.plr.Group.HasPermission("openallchests") && (chest.flags & ChestFlags.REGION) == 0)
                                 || ((chest.flags & ChestFlags.REGION) != 0 && !TShock.Regions.CanBuild(c.loc.X, c.loc.Y, c.plr))))
                             {
