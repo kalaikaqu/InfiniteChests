@@ -7,14 +7,14 @@ namespace InfiniteChests
 {
     public class Chest
     {
-        public string account;
+        public string account = "";
         public ChestFlags flags;
         public string items;
-        public Vector2 loc;
+        public Point loc;
     }
 
     [Flags]
-    public enum ChestFlags : byte
+    public enum ChestFlags
     {
         PUBLIC = 1,
         REGION = 2,
